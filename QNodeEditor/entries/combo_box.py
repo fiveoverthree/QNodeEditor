@@ -106,7 +106,7 @@ class ComboBoxEntry(Entry):
             State of the combo box
         """
         return {
-            'index': self.widget.currentIndex()
+            'currentData': self.widget.currentData()
         }
 
     def load(self, state: dict) -> bool:
@@ -123,5 +123,5 @@ class ComboBoxEntry(Entry):
         bool
             Whether setting state succeeded
         """
-        self.widget.setCurrentIndex(state.get('index', self.widget.currentIndex()))
+        self.widget.setCurrentIndex(self.widget.findData(state.get('currentData', self.widget.currentData())))
         return True

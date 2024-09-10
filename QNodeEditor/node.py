@@ -573,7 +573,8 @@ class Node(QObject, metaclass=ObjectMeta):
     def add_value_entry(self, name: str, entry_type: int = Entry.TYPE_STATIC,
                         value: int or float = 0, minimum: int or float = -100,
                         maximum: int or float = 100,
-                        value_type: Type[int] or Type[float] = float) -> None:
+                        value_type: Type[int] or Type[float] = float,
+                        theme=None) -> None:
         """
         Add a new value box entry to the node.
 
@@ -596,18 +597,21 @@ class Node(QObject, metaclass=ObjectMeta):
             Maximum value of the :py:class:`~.widgets.value_box.ValueBox`
         value_type : Type[int] or Type[float]
             Type of :py:class:`~.widgets.value_box.ValueBox` (``float`` or ``int``)
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
 
         Returns
         -------
             None
         """
         entry = ValueBoxEntry(name, entry_type, value, minimum, maximum, value_type,
-                              theme=self.graphics.theme)
+                              theme=self.graphics.theme if theme is None else theme)
         self.add_entry(entry)
 
     def add_value_input(self, name: str, value: int or float = 0,
                         minimum: int or float = -100, maximum: int or float = 100,
-                        value_type: Type[int] or Type[float] = float) -> None:
+                        value_type: Type[int] or Type[float] = float,
+                        theme=None) -> None:
         """
         Add a new value box input to the node.
 
@@ -626,16 +630,19 @@ class Node(QObject, metaclass=ObjectMeta):
             Maximum value of the :py:class:`~.widgets.value_box.ValueBox`
         value_type : Type[int] or Type[float]
             Type of :py:class:`~.widgets.value_box.ValueBox` (``float`` or ``int``)
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
 
         Returns
         -------
             None
         """
-        self.add_value_entry(name, Entry.TYPE_INPUT, value, minimum, maximum, value_type)
+        self.add_value_entry(name, Entry.TYPE_INPUT, value, minimum, maximum, value_type, theme)
 
     def add_value_output(self, name: str, value: int or float = 0,
                          minimum: int or float = -100, maximum: int or float = 100,
-                         value_type: Type[int] or Type[float] = float) -> None:
+                         value_type: Type[int] or Type[float] = float,
+                         theme=None) -> None:
         """
         Add a new value box output to the node.
 
@@ -654,14 +661,17 @@ class Node(QObject, metaclass=ObjectMeta):
             Maximum value of the :py:class:`~.widgets.value_box.ValueBox`
         value_type : Type[int] or Type[float]
             Type of :py:class:`~.widgets.value_box.ValueBox` (``float`` or ``int``)
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
+
 
         Returns
         -------
             None
         """
-        self.add_value_entry(name, Entry.TYPE_OUTPUT, value, minimum, maximum, value_type)
+        self.add_value_entry(name, Entry.TYPE_OUTPUT, value, minimum, maximum, value_type, theme)
 
-    def add_label_entry(self, name: str, entry_type: int = Entry.TYPE_STATIC) -> None:
+    def add_label_entry(self, name: str, entry_type: int = Entry.TYPE_STATIC, theme=None) -> None:
         """
         Add a new labeled entry to the node.
 
@@ -674,15 +684,17 @@ class Node(QObject, metaclass=ObjectMeta):
         entry_type : int
             Type of entry (:py:attr:`~.entry.Entry.TYPE_STATIC`, :py:attr:`~.entry.Entry.TYPE_INPUT`
             , or :py:attr:`~.entry.Entry.TYPE_OUTPUT`)
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
 
         Returns
         -------
             None
         """
-        entry = LabeledEntry(name, entry_type, self.graphics.theme)
+        entry = LabeledEntry(name, entry_type, self.graphics.theme if theme is None else theme)
         self.add_entry(entry)
 
-    def add_label_input(self, name: str) -> None:
+    def add_label_input(self, name: str, theme=None) -> None:
         """
         Add a new labeled input to the node.
 
@@ -693,14 +705,16 @@ class Node(QObject, metaclass=ObjectMeta):
         ----------
         name : str
             Name of this entry
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
 
         Returns
         -------
             None
         """
-        self.add_label_entry(name, Entry.TYPE_INPUT)
+        self.add_label_entry(name, Entry.TYPE_INPUT, theme)
 
-    def add_label_output(self, name: str) -> None:
+    def add_label_output(self, name: str, theme=None) -> None:
         """
         Add a new labeled output to the node.
 
@@ -711,14 +725,16 @@ class Node(QObject, metaclass=ObjectMeta):
         ----------
         name : str
             Name of this entry
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
 
         Returns
         -------
             None
         """
-        self.add_label_entry(name, Entry.TYPE_OUTPUT)
+        self.add_label_entry(name, Entry.TYPE_OUTPUT, theme)
 
-    def add_combo_box_entry(self, name: str, items: Iterable[str] or dict[str, Any] = None) -> None:
+    def add_combo_box_entry(self, name: str, items: Iterable[str] or dict[str, Any] = None, theme=None) -> None:
         """
         Add a new combo box entry to the node.
 
@@ -738,17 +754,21 @@ class Node(QObject, metaclass=ObjectMeta):
             If a dictionary is used, the ``values`` argument for the :py:meth:`evaluate` method will
             contain the ``data`` for the selected option. Otherwise, it will contain the ``name``.
 
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
+
         Returns
         -------
             None
         """
-        entry = ComboBoxEntry(name, items=items)
+        entry = ComboBoxEntry(name, items=items, theme=theme)
         self.add_entry(entry)
 
     def add_text_entry(self, name: str, entry_type: int = Entry.TYPE_STATIC, value: str = '',
                        max_length: int = 32767, show_clear_button: bool = False,
                        input_mask: str = '', completer: Optional[QCompleter] = None,
-                       validator: Optional[QValidator] = None) -> None:
+                       validator: Optional[QValidator] = None,
+                       theme=None) -> None:
         """
         Add a new text box entry to the node.
 
@@ -775,18 +795,21 @@ class Node(QObject, metaclass=ObjectMeta):
             Auto-completer to use for the text box
         validator : Optional[QValidator], optional
             Validator to use for the text box
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
         Returns
         -------
             None
         """
         entry = TextBoxEntry(name, entry_type, value, max_length, show_clear_button, input_mask,
-                             completer, validator, theme=self.graphics.theme)
+                             completer, validator, theme=self.graphics.theme if theme is None else theme)
         self.add_entry(entry)
 
     def add_text_input(self, name: str, value: str = '', max_length: int = 32767,
                        show_clear_button: bool = False, input_mask: str = '',
                        completer: Optional[QCompleter] = None,
-                       validator: Optional[QValidator] = None) -> None:
+                       validator: Optional[QValidator] = None,
+                       theme=None) -> None:
         """
         Add a new text box input to the node.
 
@@ -809,18 +832,21 @@ class Node(QObject, metaclass=ObjectMeta):
             Auto-completer to use for the text box
         validator : Optional[QValidator], optional
             Validator to use for the text box
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
 
         Returns
         -------
             None
         """
         self.add_text_entry(name, Entry.TYPE_INPUT, value, max_length, show_clear_button,
-                            input_mask, completer, validator)
+                            input_mask, completer, validator, theme)
 
     def add_text_output(self, name: str, value: str = '', max_length: int = 32767,
                         show_clear_button: bool = False, input_mask: str = '',
                         completer: Optional[QCompleter] = None,
-                        validator: Optional[QValidator] = None) -> None:
+                        validator: Optional[QValidator] = None,
+                        theme=None) -> None:
         """
         Add a new text box output to the node.
 
@@ -843,13 +869,15 @@ class Node(QObject, metaclass=ObjectMeta):
             Auto-completer to use for the text box
         validator : Optional[QValidator], optional
             Validator to use for the text box
+        theme : ThemeType
+            The theme to use. If None, self.graphics.theme is used
 
         Returns
         -------
             None
         """
         self.add_text_entry(name, Entry.TYPE_OUTPUT, value, max_length, show_clear_button,
-                            input_mask, completer, validator)
+                            input_mask, completer, validator, theme)
 
     def __getitem__(self, item: int or str) -> Entry:
         """

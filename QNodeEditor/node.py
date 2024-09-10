@@ -691,7 +691,7 @@ class Node(QObject, metaclass=ObjectMeta):
         -------
             None
         """
-        entry = LabeledEntry(name, entry_type, self.graphics.theme if theme is None else theme)
+        entry = LabeledEntry(name, entry_type, theme=self.graphics.theme if theme is None else theme)
         self.add_entry(entry)
 
     def add_label_input(self, name: str, theme=None) -> None:
@@ -761,8 +761,12 @@ class Node(QObject, metaclass=ObjectMeta):
         -------
             None
         """
-        entry = ComboBoxEntry(name, items=items, theme=theme)
+        if theme is not None:
+            entry = ComboBoxEntry(name, items=items, theme=theme)
+        else:
+            entry = ComboBoxEntry(name, items=items)
         self.add_entry(entry)
+        
 
     def add_text_entry(self, name: str, entry_type: int = Entry.TYPE_STATIC, value: str = '',
                        max_length: int = 32767, show_clear_button: bool = False,
@@ -840,7 +844,7 @@ class Node(QObject, metaclass=ObjectMeta):
             None
         """
         self.add_text_entry(name, Entry.TYPE_INPUT, value, max_length, show_clear_button,
-                            input_mask, completer, validator, theme)
+                            input_mask, completer, validator, theme=theme)
 
     def add_text_output(self, name: str, value: str = '', max_length: int = 32767,
                         show_clear_button: bool = False, input_mask: str = '',
@@ -877,7 +881,7 @@ class Node(QObject, metaclass=ObjectMeta):
             None
         """
         self.add_text_entry(name, Entry.TYPE_OUTPUT, value, max_length, show_clear_button,
-                            input_mask, completer, validator, theme)
+                            input_mask, completer, validator, theme=theme)
 
     def __getitem__(self, item: int or str) -> Entry:
         """

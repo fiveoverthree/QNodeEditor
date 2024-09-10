@@ -24,7 +24,7 @@ from QNodeEditor.util import NoValue, get_widget_value
 if TYPE_CHECKING:
     from QNodeEditor.scene import NodeScene
     from QNodeEditor.socket import Socket
-    from QNodeEditor.themes import ThemeType
+
 
 
 class Node(QObject, metaclass=ObjectMeta):
@@ -97,7 +97,7 @@ class Node(QObject, metaclass=ObjectMeta):
     evaluated: pyqtSignal = pyqtSignal()
     """pyqtSignal: Signal that is emitted when the node is evaluated"""
 
-    def __init__(self, title: str = 'Node', theme: ThemeType = DarkTheme):
+    def __init__(self, title: str = 'Node', theme: type[Theme] = DarkTheme):
         """
         Create a new node.
 

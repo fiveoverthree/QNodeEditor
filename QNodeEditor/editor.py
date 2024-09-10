@@ -6,13 +6,14 @@ which can be edited at runtime by the user.
 """
 # pylint: disable = no-name-in-module
 import os
-from typing import Type, TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, Type, overload
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtWidgets import QVBoxLayout, QWidget
 
 from QNodeEditor import NodeScene, NodeView
-from QNodeEditor.themes import ThemeType, DarkTheme
+from QNodeEditor.themes import DarkTheme, ThemeType
+
 if TYPE_CHECKING:
     from QNodeEditor.node import Node
 
@@ -45,7 +46,8 @@ class NodeEditor(QWidget):
 
     def __init__(self, parent: QWidget = None,
                  theme: ThemeType = DarkTheme,
-                 allow_multiple_inputs: bool = False):
+                 allow_multiple_inputs: bool = False, 
+                 propagate_theme_to_node: bool = True):
         """
         Create a new node editor widget.
 
@@ -58,6 +60,9 @@ class NodeEditor(QWidget):
         allow_multiple_inputs : bool
             If set to True, multiple edges can be connected to the same node input. Otherwise, only
             a single edge can be connected to any input.
+        propagate_theme_to_node: bool = True
+            whether to propagate the theme of the editor to the nodes. This needs to be disabled 
+            when settings themes on a per-node basis
         """
         super().__init__(parent)
 
@@ -69,7 +74,7 @@ class NodeEditor(QWidget):
         # Create node scene and view
         self.scene: NodeScene = NodeScene(self)
         self.view: NodeView = NodeView(self.scene.graphics,
-                                       allow_multiple_inputs=allow_multiple_inputs)
+                                       allow_multiple_inputs=allow_multiple_inputs, propagate_theme_to_node=propagate_theme_to_node)
         layout.addWidget(self.view)
 
         # Set node editor theme

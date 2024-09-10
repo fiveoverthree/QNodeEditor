@@ -1,26 +1,34 @@
 """
 Module containing extension of QGraphicsView for node editor.
 """
-# pylint: disable = no-name-in-module, C0103
-from typing import Optional, Type, Iterable
-from math import sqrt
 from functools import partial
+from math import sqrt
 
-from PyQt5.QtWidgets import QGraphicsView, QGraphicsItem, QMenu, QAction, QFrame
-from PyQt5.QtCore import Qt, QPoint, QRectF
-from PyQt5.QtGui import QPainter, QMouseEvent, QWheelEvent, QKeyEvent, QCursor, QContextMenuEvent
+# pylint: disable = no-name-in-module, C0103
+from typing import Iterable, Optional, Type
 
-from QNodeEditor.node import Node
+from PyQt5.QtCore import QPoint, QRectF, Qt
+from PyQt5.QtGui import (
+    QContextMenuEvent,
+    QCursor,
+    QKeyEvent,
+    QMouseEvent,
+    QPainter,
+    QWheelEvent,
+)
+from PyQt5.QtWidgets import QAction, QFrame, QGraphicsItem, QGraphicsView, QMenu
+
 from QNodeEditor.edge import Edge
 from QNodeEditor.entry import Entry
-from QNodeEditor.socket import Socket
+from QNodeEditor.graphics.cutter import Cutter
 from QNodeEditor.graphics.edge import EdgeGraphics
-from QNodeEditor.graphics.node import NodeGraphics
 from QNodeEditor.graphics.entry import EntryGraphics
+from QNodeEditor.graphics.node import NodeGraphics
 from QNodeEditor.graphics.scene import NodeSceneGraphics
 from QNodeEditor.graphics.socket import SocketGraphics
-from QNodeEditor.graphics.cutter import Cutter
-from QNodeEditor.themes import ThemeType, DarkTheme, LightTheme
+from QNodeEditor.node import Node
+from QNodeEditor.socket import Socket
+from QNodeEditor.themes import DarkTheme, LightTheme, ThemeType
 
 
 class NodeView(QGraphicsView):
@@ -40,7 +48,7 @@ class NodeView(QGraphicsView):
     """int: Placing state (a item or group of items is being placed)"""
 
     def __init__(self, scene_graphics: NodeSceneGraphics, theme: ThemeType = DarkTheme,
-                 allow_multiple_inputs: bool = False):
+                 allow_multiple_inputs: bool = False, propagate_theme_to_node: bool = True):
         """
         Create a new node view.
 
@@ -53,6 +61,9 @@ class NodeView(QGraphicsView):
         allow_multiple_inputs: bool
             If True, multiple edges can be connected to a single input, otherwise only a single
             edge can be connected to any input.
+        propagate_theme_to_node: bool
+            Whether to set the node theme based on the current editor theme. If setting custom themes
+            on a per-node basis, this needs to be disabled.
         """
         super().__init__(scene_graphics)
         self.scene_graphics: NodeSceneGraphics = scene_graphics
@@ -64,6 +75,7 @@ class NodeView(QGraphicsView):
         # Set node view theme and state
         self.theme: ThemeType = theme
         self._state: int = self.STATE_DEFAULT
+        self.propagate_theme_to_node = propagate_theme_to_node
 
         # Set graphics rendering properties
         self.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
@@ -1063,7 +1075,8 @@ class NodeView(QGraphicsView):
         """
         node = node_class()
         self.scene_graphics.scene.add_node(node)
-        node.graphics.theme = self.theme
+        if self.propagate_theme_to_node:
+            node.graphics.theme = self.theme
 
         # Select only the added node and start placing it
         self.scene_graphics.clearSelection()

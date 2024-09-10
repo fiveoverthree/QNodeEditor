@@ -7,20 +7,24 @@ up the structure of the node and determine its look. Contains a graphics object 
 """
 # pylint: disable = no-name-in-module
 from abc import abstractmethod
-from typing import TYPE_CHECKING, Optional, Iterable, overload, Any, Type
+from typing import TYPE_CHECKING, Any, Iterable, Optional, Type, overload
 
-from PyQt5.QtWidgets import QCompleter
 from PyQt5.QtCore import QObject, pyqtSignal
 from PyQt5.QtGui import QValidator
+from PyQt5.QtWidgets import QCompleter
 
+from QNodeEditor.entries import ComboBoxEntry, LabeledEntry, TextBoxEntry, ValueBoxEntry
 from QNodeEditor.entry import Entry
 from QNodeEditor.graphics.node import NodeGraphics
 from QNodeEditor.metas import ObjectMeta
+from QNodeEditor.themes.dark import DarkTheme
+from QNodeEditor.themes.theme import Theme
 from QNodeEditor.util import NoValue, get_widget_value
-from QNodeEditor.entries import ValueBoxEntry, ComboBoxEntry, LabeledEntry, TextBoxEntry
+
 if TYPE_CHECKING:
     from QNodeEditor.scene import NodeScene
     from QNodeEditor.socket import Socket
+    from QNodeEditor.themes import ThemeType
 
 
 class Node(QObject, metaclass=ObjectMeta):
@@ -93,7 +97,7 @@ class Node(QObject, metaclass=ObjectMeta):
     evaluated: pyqtSignal = pyqtSignal()
     """pyqtSignal: Signal that is emitted when the node is evaluated"""
 
-    def __init__(self, title: str = 'Node'):
+    def __init__(self, title: str = 'Node', theme: ThemeType = DarkTheme):
         """
         Create a new node.
 
@@ -103,6 +107,8 @@ class Node(QObject, metaclass=ObjectMeta):
         ----------
         title : str, default='Node'
             Title of the node (can be accessed through :py:attr:`title`)
+        theme: ThemeType
+            sets the theme of this node.
         """
         super().__init__()
         # Set node properties
@@ -111,8 +117,9 @@ class Node(QObject, metaclass=ObjectMeta):
         self.output: Optional[dict[str, Any]] = None
 
         # Create node graphics
-        self.graphics: NodeGraphics = NodeGraphics(self)
+        self.graphics: NodeGraphics = NodeGraphics(self, theme)
         self.scene: Optional['NodeScene'] = None
+
 
         # Run function that creates node to be implemented by inheriting class
         self.create()

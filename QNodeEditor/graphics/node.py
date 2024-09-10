@@ -4,14 +4,15 @@ Module containing extension of QGraphicsItem representing a node.
 # pylint: disable = no-name-in-module, C0103
 from typing import TYPE_CHECKING
 
-from PyQt5.QtWidgets import QGraphicsItem, QGraphicsDropShadowEffect, QGraphicsTextItem
-from PyQt5.QtCore import QRectF, Qt, QPointF, QVariant
-from PyQt5.QtGui import QPainter, QPainterPath, QColor, QBrush, QPen, QFontMetrics
+from PyQt5.QtCore import QPointF, QRectF, Qt, QVariant
+from PyQt5.QtGui import QBrush, QColor, QFontMetrics, QPainter, QPainterPath, QPen
+from PyQt5.QtWidgets import QGraphicsDropShadowEffect, QGraphicsItem, QGraphicsTextItem
 
-from QNodeEditor.themes import ThemeType, DarkTheme
+from QNodeEditor.themes import DarkTheme, ThemeType
+
 if TYPE_CHECKING:
-    from QNodeEditor.node import Node
     from QNodeEditor.entry import Entry
+    from QNodeEditor.node import Node
 
 
 class NodeGraphics(QGraphicsItem):

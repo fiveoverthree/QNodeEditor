@@ -4,14 +4,15 @@ Base class for node editor themes
 New themes can be created by deriving from this class and giving each property a value (see
 :py:class:`~QNodeEditor.themes`).
 """
+
 # pylint: disable = no-name-in-module, R0801
 import os
-from typing import Type, Optional
 from pkgutil import get_data
-from pkg_resources import resource_filename
+from typing import Optional, Type
 
+from pkg_resources import resource_filename
 from PyQt5.QtCore import QByteArray, Qt
-from PyQt5.QtGui import QColor, QFontDatabase, QFont
+from PyQt5.QtGui import QColor, QFont, QFontDatabase
 
 
 class Theme:
@@ -135,6 +136,9 @@ class Theme:
     socket_outline_width: float
     """float: Socket outline width"""
 
+    # cache font
+    fontCache = None
+
     @classmethod
     def font(cls, point_size: Optional[int] = None) -> QFont:
         """
@@ -150,13 +154,17 @@ class Theme:
         QFont
             Loaded font
         """
-        # Add application font from resource file
-        data = QByteArray(get_data(__name__, f'fonts/{cls.font_name}'))
-        font_id = QFontDatabase.addApplicationFontFromData(data)
+        if cls.fontCache is not None:
+            font = QFont(cls.fontCache)
+        else:
+            # Add application font from resource file
+            data = QByteArray(get_data(__name__, f"fonts/{cls.font_name}"))
+            font_id = QFontDatabase.addApplicationFontFromData(data)
 
-        # Create a QFont from the font ID
-        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
-        font = QFont(font_family)
+            # Create a QFont from the font ID
+            font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+            font = QFont(font_family)
+            cls.fontCache = font
 
         # Set point size if specified, or use default size
         if point_size is not None:
@@ -182,8 +190,8 @@ class Theme:
         str
             Absolute path to SVG file
         """
-        path = resource_filename(__name__, os.path.join('img', filename))
-        return path.replace('\\', '/')
+        path = resource_filename(__name__, os.path.join("img", filename))
+        return path.replace("\\", "/")
 
     @classmethod
     def load_combo_box_arrow(cls) -> str:

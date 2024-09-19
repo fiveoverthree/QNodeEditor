@@ -5,18 +5,28 @@ This module contains a class derived from QDialog. The dialog contains a node ed
 handling for results and errors. The dialog is successfully executed when the node scene evaluation
 succeeds. Any errors that occur are caught and displayed to the user.
 """
-# pylint: disable = no-name-in-module
-from typing import Optional, Any
 import traceback
 from functools import partial
 
-from PyQt5.QtWidgets import (QDialog, QPushButton, QWidget, QHBoxLayout, QVBoxLayout, QLabel,
-                             QMessageBox, QTextEdit, QProgressBar)
+# pylint: disable = no-name-in-module
+from typing import Any, Optional
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFontMetrics, QKeyEvent
+from PyQt5.QtWidgets import (
+    QDialog,
+    QHBoxLayout,
+    QLabel,
+    QMessageBox,
+    QProgressBar,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 from QNodeEditor.editor import NodeEditor
-from QNodeEditor.themes import ThemeType, DarkTheme
+from QNodeEditor.themes import DarkTheme, ThemeType
 from QNodeEditor.util import clear_layout
 
 

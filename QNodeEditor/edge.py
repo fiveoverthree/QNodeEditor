@@ -143,8 +143,6 @@ class Edge(QObject, metaclass=ObjectMeta):
 
     @property
     def valid(self) -> bool:
-        print(self._start.value_type)
-        print(self._end.value_type)
         return (self._start is not None) and (self._end is not None) and self._start.value_type == self._end.value_type 
 
     def _create_graphics(self) -> None:

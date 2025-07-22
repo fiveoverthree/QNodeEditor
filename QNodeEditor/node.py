@@ -235,9 +235,7 @@ class Node(QObject, metaclass=ObjectMeta):
                     raise ValueError(f"Output for entry '{entry.name}' in node "
                                      f"'{self.title}' was not set")
                 outputs[entry.name] = entry.value
-            elif entry.entry_type == Entry.TYPE_INPUT and entry.socket is not None:
-                if len(entry.socket.edges) == 0:
-                    raise Exception(f"No input connected at node {self.title}")
+            elif entry.socket is not None:
                 for edge in entry.socket.edges:
                     if not edge.valid:
                         raise Exception(f"Edge is not valid at node {self.title}")

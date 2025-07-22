@@ -188,15 +188,24 @@ class EdgeGraphics(QGraphicsPathItem, metaclass=GraphicsPathItemMeta):
             self._pen.setWidthF(self.theme.edge_width_drag)
             self._pen.setStyle(self.theme.edge_style_drag)
         elif self.isSelected():
-            self._pen.setColor(self.theme.edge_color_selected)
+            if not self.edge.valid:
+                self._pen.setColor(self.theme.edge_color_selected_invalid)
+            else:
+                self._pen.setColor(self.theme.edge_color_selected)
             self._pen.setWidthF(self.theme.edge_width_selected)
             self._pen.setStyle(self.theme.edge_style_selected)
         elif self._hovered:
-            self._pen.setColor(self.theme.edge_color_hover)
+            if not self.edge.valid:
+                self._pen.setColor(self.theme.edge_color_hover_invalid)
+            else:
+                self._pen.setColor(self.theme.edge_color_hover)
             self._pen.setWidthF(self.theme.edge_width_hover)
             self._pen.setStyle(self.theme.edge_style_hover)
         else:
-            self._pen.setColor(self.theme.edge_color_default)
+            if not self.edge.valid:
+                self._pen.setColor(self.theme.edge_color_default_invalid)
+            else:
+                self._pen.setColor(self.theme.edge_color_default)
             self._pen.setWidthF(self.theme.edge_width_default)
             self._pen.setStyle(self.theme.edge_style_default)
         painter.setPen(self._pen)

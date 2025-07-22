@@ -7,7 +7,7 @@ class ConstantNode(Node):
 
     def create(self) -> None:
         self.title = 'Constant'
-        self.add_value_output('Value')
+        self.add_value_output('Value', value_type=int)
 
     def evaluate(self, entry_values: dict) -> None:
         value = entry_values['Value']

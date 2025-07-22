@@ -39,8 +39,11 @@ class LightTheme(Theme):
     # Edge properties
     edge_type: str = 'bezier'
     edge_color_default: QColor = QColor('#B5B5B5')
+    edge_color_default_invalid: QColor = QColor('#a80303')
     edge_color_hover: QColor = QColor('#AEAEAE')
+    edge_color_hover_invalid: QColor = QColor('#b72d2d')
     edge_color_selected: QColor = QColor('#626262')
+    edge_color_selected_invalid: QColor = QColor('#d14949')
     edge_color_drag: QColor = QColor('#C2C2C2')
     edge_width_default: float = 3.0
     edge_width_hover: float = 4.0

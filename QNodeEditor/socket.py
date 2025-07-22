@@ -6,7 +6,7 @@ it.
 """
 # pylint: disable = no-name-in-module
 from __future__ import annotations
-from typing import TYPE_CHECKING, Type
+from typing import TYPE_CHECKING, Generic, Type, TypeVar
 
 from PyQt5.QtCore import QObject, pyqtSignal
 
@@ -16,8 +16,9 @@ if TYPE_CHECKING:
     from QNodeEditor.edge import Edge
     from QNodeEditor.entry import Entry
 
+T = TypeVar('T')
 
-class Socket(QObject, metaclass=ObjectMeta):
+class Socket(QObject, Generic[T], metaclass=ObjectMeta):
     """
     Socket container holding a reference to all edges connected to it.
 
@@ -40,7 +41,7 @@ class Socket(QObject, metaclass=ObjectMeta):
     disconnected: pyqtSignal = pyqtSignal()
     """pyqtSignal: Signal that is emitted when an edge is disconnected from the socket"""
 
-    def __init__(self, entry: 'Entry', value_type: Type = int):
+    def __init__(self, entry: 'Entry', value_type: Type[T] = int):
         """
         Create a new socket.
 
@@ -49,7 +50,7 @@ class Socket(QObject, metaclass=ObjectMeta):
         entry : :py:class:`~.entry.Entry`
             Entry this socket belongs to
         value_type : Type
-            Type of the socket (not yet implemented)
+            Type of the socket
         """
         super().__init__()
         self.id: str = str(id(self))

@@ -39,8 +39,11 @@ class DarkTheme(Theme):
     # Edge properties
     edge_type: str = 'bezier'
     edge_color_default: QColor = QColor('#141414')
+    edge_color_default_invalid: QColor = QColor('#a80303')
     edge_color_hover: QColor = QColor('#101010')
+    edge_color_hover_invalid: QColor = QColor('#b72d2d')
     edge_color_selected: QColor = QColor('#9D9D9D')
+    edge_color_selected_invalid: QColor = QColor('#d14949')
     edge_color_drag: QColor = QColor('#171717')
     edge_width_default: float = 3.0
     edge_width_hover: float = 4.0

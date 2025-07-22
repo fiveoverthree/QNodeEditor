@@ -6,7 +6,7 @@ socket, depending on the set entry type.
 """
 # pylint: disable = no-name-in-module
 from abc import abstractmethod
-from typing import TYPE_CHECKING, Optional, Any
+from typing import TYPE_CHECKING, Optional, Any, Type
 
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import Qt, QObject, pyqtSignal
@@ -98,7 +98,7 @@ class Entry(QObject, metaclass=ObjectMeta):
     resized: pyqtSignal = pyqtSignal(float)
     """pyqtSignal -> float: Signal that is emitted when the width of the entry is changed"""
 
-    def __init__(self, name: str, entry_type: int = TYPE_STATIC, theme: ThemeType = DarkTheme):
+    def __init__(self, name: str, entry_type: int = TYPE_STATIC, theme: ThemeType = DarkTheme, value_type: Type = int):
         """
         Create a new entry.
 
@@ -127,11 +127,11 @@ class Entry(QObject, metaclass=ObjectMeta):
 
         # Add an input or output socket (or no socket for static entries)
         if entry_type in (self.TYPE_INPUT, self.TYPE_OUTPUT):
-            self._socket: Socket = Socket(self)
+            self._socket: Socket | None = Socket(self, value_type=value_type)
             self._socket.connected.connect(self.edge_connected.emit)
             self._socket.disconnected.connect(self.edge_disconnected.emit)
         else:
-            self._socket: None = None
+            self._socket: Socket | None = None
 
     @property
     def name(self) -> str:
@@ -406,7 +406,7 @@ class Entry(QObject, metaclass=ObjectMeta):
 
             self.node = None
 
-    def add_socket(self) -> Socket:
+    def add_socket(self, value_type: Type = int) -> Socket:
         """
         Create a socket for the entry
 
@@ -415,7 +415,7 @@ class Entry(QObject, metaclass=ObjectMeta):
         :py:class:`~.socket.Socket`
             Created socket
         """
-        return Socket(self)
+        return Socket(self, value_type=value_type)
 
     def __str__(self) -> str:
         """

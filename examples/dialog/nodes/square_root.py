@@ -10,7 +10,7 @@ class SquareRootNode(Node):
     def create(self) -> None:
         self.title = 'Square root'
         self.add_label_output('Output')
-        self.add_value_input('Value')
+        self.add_value_input('Value', value_type=float)
 
     def evaluate(self, entry_values: dict) -> None:
         result = sqrt(entry_values['Value'])

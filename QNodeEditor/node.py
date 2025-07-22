@@ -566,7 +566,7 @@ class Node(QObject, metaclass=ObjectMeta):
     def add_value_entry(self, name: str, entry_type: int = Entry.TYPE_STATIC,
                         value: int or float = 0, minimum: int or float = -100,
                         maximum: int or float = 100,
-                        value_type: Type[int] or Type[float] = float) -> None:
+                        value_type: Type = float) -> None:
         """
         Add a new value box entry to the node.
 
@@ -594,7 +594,7 @@ class Node(QObject, metaclass=ObjectMeta):
         -------
             None
         """
-        entry = ValueBoxEntry(name, entry_type, value, minimum, maximum, value_type,
+        entry = ValueBoxEntry(name, entry_type, value, minimum, maximum, value_type=value_type,
                               theme=self.graphics.theme)
         self.add_entry(entry)
 

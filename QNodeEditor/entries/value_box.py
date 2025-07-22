@@ -71,7 +71,7 @@ class ValueBoxEntry(Entry):
         theme : Type[:py:class:`~QNodeEditor.themes.theme.Theme`], optional
             Theme for the entry (default: :py:class:`~QNodeEditor.themes.dark.DarkTheme`)
         """
-        super().__init__(name, entry_type, **kwargs)
+        super().__init__(name, entry_type, value_type=value_type, **kwargs)
 
         # Add a value box with the name and value of the entry
         self.widget: ValueBox = ValueBox(self.name, theme=theme)

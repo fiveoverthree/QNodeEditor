@@ -40,7 +40,7 @@ class LightTheme(Theme):
     editor_grid_spacing: int = 30
 
     # Node properties
-    node_colors: dict[Type, NodeColor] = {NoneType: LightThemeNodeColor()}
+    node_colors: dict[Type, Type[NodeColor]] = {NoneType: LightThemeNodeColor}
     node_border_radius: float = 5.0
     node_outline_width: float = 1.0
     node_shadow_radius: float = 15.0
@@ -82,6 +82,6 @@ class LightTheme(Theme):
     widget_height: int = 22
 
     # Socket properties
-    socket_colors: dict[Type, SocketColor] = {NoneType: LightThemeSocketColor()}
+    socket_colors: dict[Type, Type[SocketColor]] = {NoneType: LightThemeSocketColor}
     socket_radius: int = 5
     socket_outline_width: float = 1.0

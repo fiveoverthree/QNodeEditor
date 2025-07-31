@@ -45,7 +45,7 @@ class Theme:
     """int: Spacing of editor background grid points"""
 
     # Node properties
-    node_colors: dict[Type, NodeColor]
+    node_colors: dict[Type, Type[NodeColor]]
     """Colors to use for a specific Node type."""
     node_border_radius: float
     """float: Node body border radius"""
@@ -123,7 +123,7 @@ class Theme:
     """int: Widget height"""
 
     # Socket properties
-    socket_colors: dict[Type, SocketColor]
+    socket_colors: dict[Type, Type[SocketColor]]
     """QColor: Color of socket types. should provide a default Option with type NoneType"""
     socket_radius: int
     """int: Socket radius"""
@@ -134,13 +134,13 @@ class Theme:
     fontCache: Optional[QFont] = None
 
     @classmethod
-    def get_socket_color_for_type(cls, t: Type=NoneType) -> SocketColor:
+    def get_socket_color_for_type(cls, t: Type=NoneType) -> Type[SocketColor]:
         if t in cls.socket_colors:
             return cls.socket_colors[t]
         return cls.socket_colors[NoneType]
 
     @classmethod
-    def get_node_color_for_type(cls, t:Type=NoneType) -> NodeColor:
+    def get_node_color_for_type(cls, t:Type=NoneType) -> Type[NodeColor]:
         if t in cls.socket_colors:
             return cls.node_colors[t]
         return cls.node_colors[NoneType]

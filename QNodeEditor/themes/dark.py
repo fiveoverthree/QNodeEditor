@@ -39,7 +39,7 @@ class DarkTheme(Theme):
     editor_grid_spacing: int = 30
 
     # Node properties
-    node_colors: dict[Type, NodeColor] = {NoneType: DarkThemeNodeColor()}
+    node_colors: dict[Type, Type[NodeColor]] = {NoneType: DarkThemeNodeColor}
     node_border_radius: float = 5.0
     node_outline_width: float = 1.0
     node_shadow_radius: float = 15.0
@@ -81,7 +81,7 @@ class DarkTheme(Theme):
     widget_height: int = 22
 
     # Socket properties
-    socket_colors: dict[Type, SocketColor] = {NoneType: DarkThemeSocketColor()}
+    socket_colors: dict[Type, Type[SocketColor]] = {NoneType: DarkThemeSocketColor}
     socket_radius: int = 5
     socket_outline_width: float = 1.0
 

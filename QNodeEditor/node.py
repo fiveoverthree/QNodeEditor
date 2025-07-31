@@ -662,7 +662,7 @@ class Node(QObject, metaclass=ObjectMeta):
         """
         self.add_value_entry(name, Entry.TYPE_OUTPUT, value, minimum, maximum, value_type)
 
-    def add_label_entry(self, name: str, entry_type: int = Entry.TYPE_STATIC) -> None:
+    def add_label_entry(self, name: str, entry_type: int = Entry.TYPE_STATIC, value_type:Type=NoneType) -> None:
         """
         Add a new labeled entry to the node.
 
@@ -680,10 +680,10 @@ class Node(QObject, metaclass=ObjectMeta):
         -------
             None
         """
-        entry = LabeledEntry(name, entry_type, self.graphics.theme)
+        entry = LabeledEntry(name, entry_type, self.graphics.theme, value_type=value_type)
         self.add_entry(entry)
 
-    def add_label_input(self, name: str) -> None:
+    def add_label_input(self, name: str, value_type:Type=NoneType) -> None:
         """
         Add a new labeled input to the node.
 
@@ -699,9 +699,9 @@ class Node(QObject, metaclass=ObjectMeta):
         -------
             None
         """
-        self.add_label_entry(name, Entry.TYPE_INPUT)
+        self.add_label_entry(name, Entry.TYPE_INPUT, value_type=value_type)
 
-    def add_label_output(self, name: str) -> None:
+    def add_label_output(self, name: str, value_type:Type=NoneType) -> None:
         """
         Add a new labeled output to the node.
 
@@ -717,7 +717,7 @@ class Node(QObject, metaclass=ObjectMeta):
         -------
             None
         """
-        self.add_label_entry(name, Entry.TYPE_OUTPUT)
+        self.add_label_entry(name, Entry.TYPE_OUTPUT, value_type=value_type)
 
     def add_combo_box_entry(self, name: str, items: Iterable[str] or dict[str, Any] = None) -> None:
         """
@@ -781,7 +781,7 @@ class Node(QObject, metaclass=ObjectMeta):
             None
         """
         entry = TextBoxEntry(name, entry_type, value, max_length, show_clear_button, input_mask,
-                             completer, validator, theme=self.graphics.theme)
+                             completer, validator, theme=self.graphics.theme, value_type=str)
         self.add_entry(entry)
 
     def add_text_input(self, name: str, value: str = '', max_length: int = 32767,

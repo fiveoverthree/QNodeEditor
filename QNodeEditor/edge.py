@@ -6,6 +6,7 @@ determine the shape of the edge. Contains a graphics object that exists in a
 :py:class:`~.scene.NodeScene`.
 """
 # pylint: disable = no-name-in-module
+from types import NoneType
 from typing import Optional, TYPE_CHECKING
 
 from PyQt5.QtCore import QObject, pyqtSignal
@@ -145,7 +146,7 @@ class Edge(QObject, metaclass=ObjectMeta):
     def valid(self) -> bool:
         """Returns whether the edge is connected at both ends and the types of the two sockets match.
         """
-        return (self._start is not None) and (self._end is not None) and self._start.value_type == self._end.value_type 
+        return (self._start is not None) and (self._end is not None) and (self._start.value_type == self._end.value_type or self._start.value_type == NoneType or self._end.value_type == NoneType)  
 
     def _create_graphics(self) -> None:
         """

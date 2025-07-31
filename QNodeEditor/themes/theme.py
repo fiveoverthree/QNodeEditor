@@ -74,10 +74,16 @@ class Theme:
     """str: Type of edge ('direct' or 'bezier')"""
     edge_color_default: QColor
     """QColor: Color of edges in default state"""
+    edge_color_default_invalid: QColor
+    """QColor: Color of edges in default state, but invalid connection"""
     edge_color_hover: QColor
     """QColor: Color of edges in hovered state"""
+    edge_color_hover_invalid: QColor = QColor('#b72d2d')
+    """QColor: Color of edges in hovered state, but invalid connection"""
     edge_color_selected: QColor
     """QColor: Color of edges in selected state"""
+    edge_color_selected_invalid: QColor = QColor('#d14949')
+    """QColor: Color of edges in selected state, but invalid connection"""
     edge_color_drag: QColor
     """QColor: Color of edges that are being dragged"""
     edge_width_default: float

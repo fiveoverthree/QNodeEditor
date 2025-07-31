@@ -7,6 +7,7 @@ up the structure of the node and determine its look. Contains a graphics object 
 """
 # pylint: disable = no-name-in-module
 from abc import abstractmethod
+from types import NoneType
 from typing import TYPE_CHECKING, Optional, Iterable, overload, Any, Type
 
 from PyQt5.QtWidgets import QCompleter
@@ -92,6 +93,9 @@ class Node(QObject, metaclass=ObjectMeta):
 
     evaluated: pyqtSignal = pyqtSignal()
     """pyqtSignal: Signal that is emitted when the node is evaluated"""
+
+    node_type: Type = NoneType
+    """Type: Type of the Node that is used when determining the NodeColor"""
 
     def __init__(self, title: str = 'Node'):
         """

@@ -2,6 +2,7 @@
 Module containing extension of QGraphicsItem representing a node.
 """
 # pylint: disable = no-name-in-module, C0103
+from types import NoneType
 from typing import TYPE_CHECKING
 
 from PyQt5.QtWidgets import QGraphicsItem, QGraphicsDropShadowEffect, QGraphicsTextItem
@@ -62,7 +63,7 @@ class NodeGraphics(QGraphicsItem):
         # Add node title
         self._title_item: QGraphicsTextItem = QGraphicsTextItem(self)
         self._title_item.setFont(self.theme.font())
-        self._title_item.setDefaultTextColor(self.theme.node_color_title)
+        self._title_item.setDefaultTextColor(self.theme.get_node_color_for_type(self.node.node_type).node_color_title)
         self.set_title(self.node.title)
 
     @property
@@ -103,7 +104,7 @@ class NodeGraphics(QGraphicsItem):
         self._theme = new_theme
         self.shadow_effect.setBlurRadius(self.theme.node_shadow_radius)
         self.shadow_effect.setOffset(*self.theme.node_shadow_offset)
-        self.shadow_effect.setColor(self.theme.node_color_shadow)
+        self.shadow_effect.setColor(self.theme.get_node_color_for_type(self.node.node_type).node_color_shadow)
         self.update()
 
         # Propagate changed theme to all entries
@@ -267,23 +268,24 @@ class NodeGraphics(QGraphicsItem):
         path_outline.addRoundedRect(QRectF(0, 0, self.width, self.height),
                                     self.theme.node_border_radius, self.theme.node_border_radius)
 
+        node_color = self.theme.get_node_color_for_type(self.node.node_type)
         # Create outline pen based on theme
         if self.isSelected():
-            pen = QPen(self.theme.node_color_outline_selected)
+            pen = QPen(node_color.node_color_outline_selected)
         elif self._hovered:
-            pen = QPen(self.theme.node_color_outline_hovered)
+            pen = QPen(node_color.node_color_outline_hovered)
         else:
-            pen = QPen(self.theme.node_color_outline_default)
+            pen = QPen(node_color.node_color_outline_default)
         pen.setWidthF(self.theme.node_outline_width)
 
         # Draw node body
         painter.setPen(Qt.NoPen)
-        painter.setBrush(QBrush(self.theme.node_color_body))
+        painter.setBrush(QBrush(node_color.node_color_body))
         painter.drawPath(path_body)
 
         # Draw node header
         painter.setPen(Qt.NoPen)
-        painter.setBrush(QBrush(self.theme.node_color_header))
+        painter.setBrush(QBrush(node_color.node_color_header))
         painter.drawPath(path_header)
 
         # Draw outline

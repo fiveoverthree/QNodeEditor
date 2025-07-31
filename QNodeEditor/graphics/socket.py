@@ -50,8 +50,9 @@ class SocketGraphics(QGraphicsItem):
         self._theme = new_theme
 
         # Set socket colors and outline
-        self._pen.setColor(self.theme.socket_color_outline)
-        self._brush.setColor(self.theme.socket_color_fill)
+        socket_color = self.theme.get_socket_color_for_type(self.socket.value_type)
+        self._pen.setColor(socket_color.socket_color_outline)
+        self._brush.setColor(socket_color.socket_color_fill)
         self._pen.setWidthF(self.theme.socket_outline_width)
 
     def update_position(self) -> None:

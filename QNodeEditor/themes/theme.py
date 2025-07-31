@@ -6,12 +6,15 @@ New themes can be created by deriving from this class and giving each property a
 """
 # pylint: disable = no-name-in-module, R0801
 import os
+from types import NoneType
 from typing import Type, Optional
 from pkgutil import get_data
 from pkg_resources import resource_filename
 
 from PyQt5.QtCore import QByteArray, Qt
 from PyQt5.QtGui import QColor, QFontDatabase, QFont
+
+from QNodeEditor.themes.colors import NodeColor, SocketColor
 
 
 class Theme:
@@ -42,20 +45,8 @@ class Theme:
     """int: Spacing of editor background grid points"""
 
     # Node properties
-    node_color_body: QColor
-    """QColor: Color of node body"""
-    node_color_header: QColor
-    """QColor: Color of node header (behind title)"""
-    node_color_outline_default: QColor
-    """QColor: Color of node outline in default state"""
-    node_color_outline_hovered: QColor
-    """QColor: Color of node outline in hovered state"""
-    node_color_outline_selected: QColor
-    """QColor: Color of node outline in selected state"""
-    node_color_shadow: QColor
-    """QColor: Color of node shadow"""
-    node_color_title: QColor
-    """QColor: Color of node title text"""
+    node_colors: dict[Type, NodeColor]
+    """Colors to use for a specific Node type."""
     node_border_radius: float
     """float: Node body border radius"""
     node_outline_width: float
@@ -132,10 +123,8 @@ class Theme:
     """int: Widget height"""
 
     # Socket properties
-    socket_color_fill: QColor
-    """QColor: Color of socket"""
-    socket_color_outline: QColor
-    """QColor: Color of socket outline"""
+    socket_colors: dict[Type, SocketColor]
+    """QColor: Color of socket types. should provide a default Option with type NoneType"""
     socket_radius: int
     """int: Socket radius"""
     socket_outline_width: float
@@ -143,6 +132,19 @@ class Theme:
 
     # cache font
     fontCache: Optional[QFont] = None
+
+    @classmethod
+    def get_socket_color_for_type(cls, t: Type=NoneType) -> SocketColor:
+        if t in cls.socket_colors:
+            return cls.socket_colors[t]
+        return cls.socket_colors[NoneType]
+
+    @classmethod
+    def get_node_color_for_type(cls, t:Type=NoneType) -> NodeColor:
+        if t in cls.socket_colors:
+            return cls.node_colors[t]
+        return cls.node_colors[NoneType]
+
 
     @classmethod
     def font(cls, point_size: Optional[int] = None) -> QFont:

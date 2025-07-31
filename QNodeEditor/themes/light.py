@@ -1,9 +1,27 @@
 """Class containing light theme for node editor"""
 # pylint: disable = no-name-in-module, R0801
+from types import NoneType
+from typing import Type
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 
+from QNodeEditor.themes.colors import NodeColor, SocketColor
 from QNodeEditor.themes.theme import Theme
+
+
+class LightThemeSocketColor(SocketColor):
+    socket_color_fill: QColor = QColor('#A1A1A1')
+    socket_color_outline: QColor = QColor('#9E9E9E')
+
+class LightThemeNodeColor(NodeColor):
+    node_color_body: QColor = QColor('#DEDEDE')
+    node_color_header: QColor = QColor('#356A3B')
+    node_color_outline_default: QColor = QColor('transparent')
+    node_color_outline_hovered: QColor = QColor('#BEBEBE')
+    node_color_outline_selected: QColor = QColor('#626262')
+    node_color_shadow: QColor = QColor('#AAAAAA')
+    node_color_title: QColor = QColor('#FFFFFF')
+ 
 
 
 class LightTheme(Theme):
@@ -22,13 +40,7 @@ class LightTheme(Theme):
     editor_grid_spacing: int = 30
 
     # Node properties
-    node_color_body: QColor = QColor('#DEDEDE')
-    node_color_header: QColor = QColor('#356A3B')
-    node_color_outline_default: QColor = QColor('transparent')
-    node_color_outline_hovered: QColor = QColor('#BEBEBE')
-    node_color_outline_selected: QColor = QColor('#626262')
-    node_color_shadow: QColor = QColor('#AAAAAA')
-    node_color_title: QColor = QColor('#FFFFFF')
+    node_colors: dict[Type, NodeColor] = {NoneType: LightThemeNodeColor()}
     node_border_radius: float = 5.0
     node_outline_width: float = 1.0
     node_shadow_radius: float = 15.0
@@ -70,7 +82,6 @@ class LightTheme(Theme):
     widget_height: int = 22
 
     # Socket properties
-    socket_color_fill: QColor = QColor('#A1A1A1')
-    socket_color_outline: QColor = QColor('#9E9E9E')
+    socket_colors: dict[Type, SocketColor] = {NoneType: LightThemeSocketColor()}
     socket_radius: int = 5
     socket_outline_width: float = 1.0

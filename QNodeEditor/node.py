@@ -177,6 +177,8 @@ class Node(QObject, metaclass=ObjectMeta):
         self.disconnect_signals()
         self._scene = new_scene
         self.connect_signals()
+        if new_scene is not None:
+            self.graphics.theme = new_scene.graphics.theme
 
     @property
     def output(self) -> dict[str, Any]:

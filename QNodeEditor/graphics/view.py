@@ -252,14 +252,6 @@ class NodeView(QGraphicsView):
             self.duplicate_selection()
             return event.accept()
 
-        # TODO: remove temp theme switching
-        if event.key() == Qt.Key_L:
-            self.theme = LightTheme
-            return event.accept()
-        if event.key() == Qt.Key_D:
-            self.theme = DarkTheme
-            return event.accept()
-
         # Use default handler otherwise
         super().keyPressEvent(event)
 

@@ -118,6 +118,9 @@ class Node(QObject, metaclass=ObjectMeta):
         self.graphics: NodeGraphics = NodeGraphics(self)
         self.scene: Optional['NodeScene'] = None
 
+        # global evaluation information, used in some nodes to provide e.g. autocomplete functionality
+        self.evaluation_context: Optional[Any] = None
+
         # Run function that creates node to be implemented by inheriting class
         self.create()
 

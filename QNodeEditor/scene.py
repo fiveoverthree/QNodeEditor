@@ -6,7 +6,7 @@ that make up a node scene.
 """
 # pylint: disable = no-name-in-module
 import json
-from typing import TYPE_CHECKING, Iterable, Type, overload, Optional
+from typing import TYPE_CHECKING, Any, Iterable, Type, overload, Optional
 from functools import partial
 
 from PyQt5.QtWidgets import QWidget
@@ -535,7 +535,7 @@ class NodeScene(QObject, metaclass=ObjectMeta):
             raise ValueError('There are multiple output nodes in the scene')
         return output_nodes[0]
 
-    def evaluate(self) -> None:
+    def evaluate(self, evaluation_context: Optional[Any]=None) -> None:
         """
         Evaluate the scene by traversing the nodes and their connections.
 
@@ -560,9 +560,10 @@ class NodeScene(QObject, metaclass=ObjectMeta):
         except ValueError:
             pass
 
-        # Connect node evaluation signals
+        # Connect node evaluation signals and set context
         for node in self.nodes:
             node.evaluated.connect(self._emit_progress)
+            node.evaluation_context = evaluation_context
 
         # Disable view while calculating
         self._disable_view(True)
